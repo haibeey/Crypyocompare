@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_gravity="center"
+    android:background="@color/colorPrimary"
+    android:layout_centerHorizontal="true">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <RelativeLayout
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_gravity="center"
+        android:background="@color/white">
+
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/spinner1"
+            android:padding="50dp"
+            android:layout_height="wrap_content"></Spinner>
+
+       <TextView
+           android:layout_width="wrap_content"
+           android:id="@+id/tv1"
+           android:layout_below="@+id/spinner1"
+           android:text="Rate"
+           android:textSize="@dimen/fab_margin"
+           android:textColor="@color/colorPrimaryDark"
+           android:layout_centerHorizontal="true"
+           android:layout_height="wrap_content" />
+
+        <Spinner
+            android:layout_centerHorizontal="true"
+            android:id="@+id/spinner2"
+            android:padding="50dp"
+            android:layout_width="wrap_content"
+            android:layout_below="@+id/tv1"
+            android:layout_height="wrap_content"></Spinner>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:id="@+id/tv2"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/spinner2"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <RelativeLayout
+        android:padding="100dp"
+        android:background="@color/white"
+        android:layout_width="200dp"
+        android:layout_gravity="center"
+        android:layout_height="200dp">
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:id="@+id/b1"
+        android:background="@drawable/chosebutton2"
+        android:text="Make Exchange"/>
+
+</LinearLayout>
