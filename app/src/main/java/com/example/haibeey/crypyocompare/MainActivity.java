@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -73,21 +74,21 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         setSpinner(R.id.spone,R.array.demand);
         setSpinner(R.id.sptwo,R.array.price);
 
-        //set up a thread to check for new rate from https://min-api.cryptocompare.com/data/
-        //in approximately 10 seconds
-        thread();
-
     }
 
     @Override
     public void onResume(){
         super.onResume();
         canRunThread=true;
-        //checking for internet connectivity
 
+        //checking for internet connectivity
         if(!uf.isConnected()){
             makeToast(R.string.noInternet);
         }
+
+        //set up a thread to check for new rate from https://min-api.cryptocompare.com/data/
+        //in approximately 10 seconds
+        thread();
 
     }
 
@@ -122,12 +123,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         @Override
         protected void onPostExecute(String s){
+            ProgressBar pb=(ProgressBar)findViewById(R.id.pb);
             if(uf.isJson(s)){
                 float Rate=(float)uf.getJsonKey(key,s);
                 rate=Rate>0?Rate:rate;
                 updateUI(rate);
-            }else {
-                makeToast(R.string.loading);
+                pb.setVisibility(View.GONE);
             }
             running=false;
         }
@@ -157,6 +158,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             TextView textView=(TextView)findViewById(R.id.tvone);
             textView.setText("Notify me when "+cryptoCurrencies[position]+" price");
         }else if(Id==spinnerIds[1]){
+            ProgressBar pb=(ProgressBar)findViewById(R.id.pb);
+            pb.setVisibility(View.VISIBLE);
             tsyms="tsyms="+currencies[position];
             key=currencies[position];
         }else if(Id==spinnerIds[2]){
