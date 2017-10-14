@@ -2,4 +2,45 @@
     <string name="app_name">Crypyocompare</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_exchange">Exchange</string>
+    <string name="noInternet">No Internet Connection</string>
+    <string name="loading">Loading</string>
+
+    <string-array name="cryptocurrency">
+        <item>BTC</item>
+        <item>ETH</item>
+    </string-array>
+
+    <string-array name="worldCurrency">
+        <item>NGN</item>
+        <item>USD</item>
+        <item>GBP</item>
+        <item>EUR</item>
+        <item>CHF</item>
+        <item>CAD</item>
+        <item>JPY</item>
+        <item>TRY</item>
+        <item>NOK</item>
+        <item>INR</item>
+        <item>ZAR</item>
+        <item>MYR</item>
+        <item>SGR</item>
+        <item>NZD</item>
+        <item>BHD</item>
+        <item>BRL</item>
+        <item>SEK</item>
+        <item>MXN</item>
+        <item>NKD</item>
+        <item>PKR</item>
+    </string-array>
+
+    <string-array name="demand">
+        <item>increase</item>
+        <item>decrease</item>
+    </string-array>
+
+    <string-array name="price">
+        <item>10</item>
+        <item>100</item>
+        <item>1000</item>
+    </string-array>
 </resources>

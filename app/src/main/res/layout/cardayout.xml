@@ -12,8 +12,8 @@
         android:layout_height="wrap_content" />
 
     <RelativeLayout
-        android:layout_width="200dp"
-        android:layout_height="200dp"
+        android:layout_width="250dp"
+        android:layout_height="300dp"
         android:layout_gravity="center"
         android:background="@color/white">
 
@@ -22,13 +22,13 @@
             android:layout_centerHorizontal="true"
             android:id="@+id/spinner1"
             android:padding="50dp"
-            android:layout_height="wrap_content"></Spinner>
+            android:layout_height="wrap_content"/>
 
        <TextView
            android:layout_width="wrap_content"
            android:id="@+id/tv1"
            android:layout_below="@+id/spinner1"
-           android:text="Rate"
+           android:text="1917879.95"
            android:textSize="@dimen/fab_margin"
            android:textColor="@color/colorPrimaryDark"
            android:layout_centerHorizontal="true"
@@ -40,7 +40,7 @@
             android:padding="50dp"
             android:layout_width="wrap_content"
             android:layout_below="@+id/tv1"
-            android:layout_height="wrap_content"></Spinner>
+            android:layout_height="wrap_content"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -55,16 +55,60 @@
         android:layout_height="wrap_content" />
 
     <RelativeLayout
-        android:padding="100dp"
         android:background="@color/white"
-        android:layout_width="200dp"
+        android:layout_width="250dp"
         android:layout_gravity="center"
-        android:layout_height="200dp">
+        android:layout_height="300dp">
+
+        <TextView
+            android:paddingTop="@dimen/fab_margin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvone"
+            android:textSize="16dp"
+            android:textColor="@color/black"
+            android:layout_centerHorizontal="true"
+            />
+
+        <Spinner
+            android:layout_centerHorizontal="true"
+            android:id="@+id/spone"
+            android:padding="30dp"
+            android:layout_width="wrap_content"
+            android:layout_below="@+id/tvone"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="BY"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/spone"
+            android:id="@+id/tvtwo"
+            android:textSize="16dp"/>
+        <Spinner
+            android:layout_width="wrap_content"
+            android:id="@+id/sptwo"
+            android:padding="30dp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/tvtwo"
+            android:paddingBottom="50dp"
+            android:layout_height="wrap_content"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/buone"
+            android:layout_below="@+id/sptwo"
+            android:text="save"
+            android:layout_centerHorizontal="true"
+
+            android:background="@drawable/choosebutton"/>
     </RelativeLayout>
 
     <TextView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"/>
 
     <Button
         android:layout_width="wrap_content"

@@ -3,6 +3,9 @@ package com.example.haibeey.crypyocompare;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.util.Log;
+
+import org.json.JSONObject;
 
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -13,12 +16,13 @@ import java.util.Scanner;
  * Created by haibeey on 10/7/2017.
  */
 
+    //fsym=ETH&tsyms=BTC,USD,EUR
+
 public class usefulFunctions {
     Context con;
-    String url;
+    public String url="https://min-api.cryptocompare.com/data/price?";
     usefulFunctions(Context con){
         this.con=con;
-        this.url=url;
     }
 
     public String  getData(String page){
@@ -40,11 +44,11 @@ public class usefulFunctions {
                 res="";
 
         } catch (Exception e){res="";}
+        Log.i("res",res);
         return res;
     }
 
-    public boolean isConnected(){
-        ConnectivityManager check= (ConnectivityManager)this.con.getSystemService(this.con.CONNECTIVITY_SERVICE);
+    public boolean isConnected(){ConnectivityManager check= (ConnectivityManager)this.con.getSystemService(this.con.CONNECTIVITY_SERVICE);
         if(check!=null){
             NetworkInfo[] info=check.getAllNetworkInfo();
             if(info!=null){
@@ -63,10 +67,17 @@ public class usefulFunctions {
         return false;
     }
 
-    public long exchange(int value,int rate){
+    public double getJsonKey(String key,String Data){
+        try{
+            JSONObject jo=new JSONObject(Data);
+            return jo.getDouble(key);
+        }catch (Exception e){}
+        return 0;
+    }
+
+    public double exchange(double value,double rate){
         return value*rate;
     }
 
-    
 }
 
