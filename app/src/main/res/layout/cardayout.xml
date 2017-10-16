@@ -2,129 +2,96 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_gravity="center"
     android:background="@color/colorPrimary"
     android:layout_centerHorizontal="true">
 
-    <ProgressBar
-        android:layout_width="wrap_content"
-        android:id="@+id/pb"
-        android:paddingTop="@dimen/fab_margin"
-        android:layout_centerHorizontal="true"
-        android:layout_gravity="center"
-        android:visibility="gone"
-        android:layout_height="wrap_content" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
-    <RelativeLayout
-        android:layout_width="250dp"
-        android:layout_height="300dp"
-        android:layout_gravity="center"
-        android:background="@color/white">
 
-        <Spinner
-            android:layout_width="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:id="@+id/spinner1"
-            android:padding="50dp"
-            android:layout_height="wrap_content"/>
-
-       <TextView
-           android:layout_width="wrap_content"
-           android:id="@+id/tv1"
-           android:layout_below="@+id/spinner1"
-           android:text="1917879.95"
-           android:textSize="@dimen/fab_margin"
-           android:textColor="@color/colorPrimaryDark"
-           android:layout_centerHorizontal="true"
-           android:layout_height="wrap_content" />
-
-        <Spinner
-            android:layout_centerHorizontal="true"
-            android:id="@+id/spinner2"
-            android:padding="50dp"
-            android:layout_width="wrap_content"
-            android:layout_below="@+id/tv1"
-            android:layout_height="wrap_content"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:id="@+id/tv2"
-            android:layout_centerHorizontal="true"
-            android:layout_below="@+id/spinner2"
-            android:layout_height="wrap_content" />
-    </RelativeLayout>
-
-    <TextView
+    <android.support.v7.widget.CardView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-    <RelativeLayout
-        android:background="@color/white"
-        android:layout_width="250dp"
         android:layout_gravity="center"
-        android:layout_height="300dp">
+        app:cardCornerRadius="10dp"
+        android:layout_margin="5dp"
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:layout_width="250dp"
+            android:layout_height="350dp"
+            android:layout_gravity="center"
+            android:background="@color/white">
 
-        <TextView
-            android:paddingTop="@dimen/fab_margin"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/tvone"
-            android:textSize="16dp"
-            android:textColor="@color/black"
-            android:layout_centerHorizontal="true"
-            />
+            <Spinner
+                android:layout_width="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:id="@+id/spinner1"
+                android:padding="70dp"
+                android:layout_height="wrap_content"/>
 
-        <Spinner
-            android:layout_centerHorizontal="true"
-            android:id="@+id/spone"
-            android:padding="30dp"
-            android:layout_width="wrap_content"
-            android:layout_below="@+id/tvone"
-            android:layout_height="wrap_content"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:id="@+id/tv1"
+                android:layout_below="@+id/spinner1"
+                android:text="1917879.95"
+                android:textSize="@dimen/fab_margin"
+                android:textColor="@color/colorPrimaryDark"
+                android:layout_centerHorizontal="true"
+                android:layout_height="wrap_content" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="BY"
-            android:layout_centerHorizontal="true"
-            android:layout_below="@+id/spone"
-            android:id="@+id/tvtwo"
-            android:textSize="16dp"/>
-        <Spinner
-            android:layout_width="wrap_content"
-            android:id="@+id/sptwo"
-            android:padding="30dp"
-            android:layout_centerHorizontal="true"
-            android:layout_below="@+id/tvtwo"
-            android:paddingBottom="50dp"
-            android:layout_height="wrap_content"/>
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:id="@+id/pb"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center"
+                android:layout_below="@+id/tv1"
+                android:visibility="gone"
+                android:layout_height="wrap_content" />
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/buone"
-            android:layout_below="@+id/sptwo"
-            android:text="save"
-            android:layout_centerHorizontal="true"
+            <Spinner
+                android:layout_centerHorizontal="true"
+                android:id="@+id/spinner2"
+                android:padding="70dp"
+                android:layout_width="wrap_content"
+                android:layout_below="@+id/tv1"
+                android:layout_height="wrap_content"/>
 
-            android:background="@drawable/choosebutton"/>
-    </RelativeLayout>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:id="@+id/tv2"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/spinner2"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@drawable/choosebutton"
         android:layout_gravity="center"
+        android:text="create card"
         android:id="@+id/b1"
-        android:background="@drawable/chosebutton2"
-        android:text="Make Exchange"/>
+        android:textColor="@color/white"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/rcv"
+        android:layout_gravity="center">
+
+
+    </android.support.v7.widget.RecyclerView>
+
 
 </LinearLayout>

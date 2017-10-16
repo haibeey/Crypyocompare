@@ -33,14 +33,5 @@
         <item>PKR</item>
     </string-array>
 
-    <string-array name="demand">
-        <item>increase</item>
-        <item>decrease</item>
-    </string-array>
 
-    <string-array name="price">
-        <item>10</item>
-        <item>100</item>
-        <item>1000</item>
-    </string-array>
 </resources>

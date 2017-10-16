@@ -19,7 +19,6 @@
             >
 
                 <include layout="@layout/cardayout"/>
-
         </RelativeLayout>
 
     </android.support.v4.widget.NestedScrollView>

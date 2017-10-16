@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -22,47 +23,45 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-// TODO: 10/14/2017
-//fill up the fill implement back end for the other card
-//add loading future
-//beautify the ui
-
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
-    //fsym=ETH&tsyms=BTC,USD,EUR
+    RecyclerView.LayoutManager mLayoutManager;
     usefulFunctions uf;
-    SharedPreferences sharedPreferences;
-    SharedPreferences.Editor editor;
-    private String[] cryptoCurrencies;
-    private String[] currencies;
-    private String[] demand;
-    private String[] price;
+    private String[] cryptoCurrencies,currencies;
     private int[] spinnerIds=new int[4];
     String fsym="";
     String tsyms="";
-    String key="NGN";
     private float rate=0;
-    Boolean canRunThread=false;
+    boolean canRunThread=false;
     private boolean running=false;
+    DBhelper db;
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setContentView(R.layout.activity_main);Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        //create and initialize database
+        db=new DBhelper(this);
+        db.initDb();
 
         //class to handle common stuff
         uf =new usefulFunctions(this);
         canRunThread=true;
+        for (String[] i:db.getData()){
+            Log.i("tyab",i[0]+" "+i[1]+" "+i[2]+" ");
+        }
 
         //get data associated with spinners
         cryptoCurrencies=getResources().getStringArray(R.array.cryptocurrency);
         currencies=getResources().getStringArray(R.array.worldCurrency);
-        demand=getResources().getStringArray(R.array.demand);
-        price=getResources().getStringArray(R.array.price);
 
-        //setting button listener for new activity
+        //setting up recyclerview
+        setRecyclerViewAdapter();
+
+        //setting button listener to create new card
         buttonListener();
 
         //set spinner id for later usage
@@ -71,8 +70,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         //setting spinner adapters
         setSpinner(R.id.spinner1,R.array.cryptocurrency);
         setSpinner(R.id.spinner2,R.array.worldCurrency);
-        setSpinner(R.id.spone,R.array.demand);
-        setSpinner(R.id.sptwo,R.array.price);
+
 
     }
 
@@ -86,10 +84,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             makeToast(R.string.noInternet);
         }
 
-        //set up a thread to check for new rate from https://min-api.cryptocompare.com/data/
-        //in approximately 10 seconds
-        thread();
-
     }
 
     @Override
@@ -98,12 +92,19 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         canRunThread=false;
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
+    private void setRecyclerViewAdapter(){
+        RecyclerView recyclerView=(RecyclerView) findViewById(R.id.rcv);
+        recyclerView.setHasFixedSize(true);
+
+        mLayoutManager=new LinearLayoutManager(this);
+
+        recyclerView.setLayoutManager(mLayoutManager);
+
+        myAdapter adapter=new myAdapter(db.getData(),this);
+        recyclerView.setAdapter(adapter);
+
     }
+
 
     class BackGroundWork extends AsyncTask<String ,Void,String > {
 
@@ -119,33 +120,21 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         @Override
         protected void onPreExecute(){
             running=true;
+            ProgressBar pb=(ProgressBar)findViewById(R.id.pb);
+            pb.setVisibility(View.VISIBLE);
         }
 
         @Override
         protected void onPostExecute(String s){
             ProgressBar pb=(ProgressBar)findViewById(R.id.pb);
             if(uf.isJson(s)){
-                float Rate=(float)uf.getJsonKey(key,s);
+                float Rate=(float)uf.getJsonKey(getCurrency(tsyms),s);
                 rate=Rate>0?Rate:rate;
-                updateUI(rate);
+                updateUI(getCurrency(fsym),rate,getCurrency(tsyms));
                 pb.setVisibility(View.GONE);
             }
             running=false;
         }
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -155,19 +144,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         int Id=parent.getId();
         if(Id==spinnerIds[0]){
             fsym="fsym="+cryptoCurrencies[position];
-            TextView textView=(TextView)findViewById(R.id.tvone);
-            textView.setText("Notify me when "+cryptoCurrencies[position]+" price");
         }else if(Id==spinnerIds[1]){
-            ProgressBar pb=(ProgressBar)findViewById(R.id.pb);
-            pb.setVisibility(View.VISIBLE);
             tsyms="tsyms="+currencies[position];
-            key=currencies[position];
-        }else if(Id==spinnerIds[2]){
-
-        }else if(Id==spinnerIds[3]){
-
         }
-
     }
 
     @Override
@@ -180,11 +159,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         b1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent I=new Intent(getApplicationContext(),Exchange.class);
-                I.putExtra("rate",rate);
-                I.putExtra("spinner1",getCurrency(fsym));
-                I.putExtra("spinner2",getCurrency(tsyms));
-                startActivity(I);
+                if(uf.isConnected())
+                    new BackGroundWork().execute("");
+                else
+                    makeToast(R.string.noInternet);
             }
         });
     }
@@ -202,13 +180,17 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     private boolean validQuery(String data){
         //check is a string is a valid query
-        if(data.contains("="))
-            return true;
-        return false;
+        return data.contains("=");
     }
 
-    private void updateUI(double rate){
+    private void updateUI(String key,double rate,String value){
         //setting rate on screen
+        //update the database
+        db.update(key,String.valueOf(rate),value);
+        RecyclerView recyclerView=(RecyclerView)findViewById(R.id.rcv);
+        myAdapter adapter=new myAdapter(db.getData(),this);
+        recyclerView.swapAdapter(adapter,true);
+
         TextView tv=(TextView)findViewById(R.id.tv1);
         tv.setText(String.valueOf(rate));
     }
@@ -242,7 +224,5 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private void setSpinnerIds(){
         spinnerIds[0]=R.id.spinner1;
         spinnerIds[1]=R.id.spinner2;
-        spinnerIds[2]=R.id.spone;
-        spinnerIds[3]=R.id.sptwo;
     }
 }
