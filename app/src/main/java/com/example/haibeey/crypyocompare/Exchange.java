@@ -31,8 +31,8 @@ public class Exchange extends AppCompatActivity {
         uf=new usefulFunctions(this);
 
         spinnerData1=getIntent().getFloatExtra("rate",0);
-        spinnerData2=getIntent().getStringExtra("spinner1");
-        spinnerData3=getIntent().getStringExtra("spinner2");
+        spinnerData2=getIntent().getStringExtra("cryptocurrency");
+        spinnerData3=getIntent().getStringExtra("currency");
 
         TextView textView=(TextView)findViewById(R.id.tvv);
         textView.setText(spinnerData2+" to "+spinnerData3);

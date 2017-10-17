@@ -50,9 +50,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         //class to handle common stuff
         uf =new usefulFunctions(this);
         canRunThread=true;
-        for (String[] i:db.getData()){
-            Log.i("tyab",i[0]+" "+i[1]+" "+i[2]+" ");
-        }
+        // (String[] i:db.getData()){
+         //   Log.i("tyab",i[0]+" "+i[1]+" "+i[2]+" ");
+        //}
 
         //get data associated with spinners
         cryptoCurrencies=getResources().getStringArray(R.array.cryptocurrency);
@@ -111,8 +111,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         @Override
         protected String doInBackground(String... params) {
 
-            if(validQuery(fsym) && validQuery(tsyms))
-                return uf.getData(fsym+"&"+tsyms);
+            if(validQuery(params[0]) && validQuery(params[1]))
+                return uf.getData(params[0]+"&"+params[1]);
             else
                 return ""; //"{\"BTC\":0.06272,\"USD\":302.99,\"EUR\":254.78,\"NGN\":106236.96}";
         }
@@ -160,7 +160,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             @Override
             public void onClick(View v) {
                 if(uf.isConnected())
-                    new BackGroundWork().execute("");
+                    new BackGroundWork().execute(fsym,tsyms);
                 else
                     makeToast(R.string.noInternet);
             }
@@ -199,23 +199,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         return fsym.split("=")[1];
     }
 
-    private void thread(){
-        final Thread thread=new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (canRunThread){
-                    if(uf.isConnected() && !running)
-                        new BackGroundWork().execute("");
-                    try{
-                        Thread.sleep(10000);
-                    }catch (Exception e){}
-
-                }
-            }
-        });
-
-        thread.start();
-    }
 
     private void makeToast(int stringResource){
         Toast.makeText(MainActivity.this,stringResource,Toast.LENGTH_LONG).show();
