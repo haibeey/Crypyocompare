@@ -34,7 +34,7 @@ public class myAdapter extends RecyclerView.Adapter<myAdapter.viewHolder> {
         final TextView tv1=(TextView)view.findViewById(R.id.cvtv1);
         final TextView tv2=(TextView)view.findViewById(R.id.cvtv2);
         final ImageView im1=(ImageView)view.findViewById(R.id.cvim);
-        final ProgressBar progressBar=(ProgressBar) view.findViewById(R.id.pbc);
+
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -67,7 +67,6 @@ public class myAdapter extends RecyclerView.Adapter<myAdapter.viewHolder> {
         holder.tv1.setText(arr[0]+" to "+arr[2]);
         holder.tv2.setText(arr[1]);
     }
-
 
     @Override
     public int getItemCount() {
