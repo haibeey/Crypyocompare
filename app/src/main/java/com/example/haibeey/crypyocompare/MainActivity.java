@@ -31,8 +31,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     String fsym="";
     String tsyms="";
     private float rate=0;
-    boolean canRunThread=false;
-    private boolean running=false;
     DBhelper db;
 
 
@@ -49,10 +47,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         //class to handle common stuff
         uf =new usefulFunctions(this);
-        canRunThread=true;
-        // (String[] i:db.getData()){
-         //   Log.i("tyab",i[0]+" "+i[1]+" "+i[2]+" ");
-        //}
 
         //get data associated with spinners
         cryptoCurrencies=getResources().getStringArray(R.array.cryptocurrency);
@@ -77,19 +71,17 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     @Override
     public void onResume(){
         super.onResume();
-        canRunThread=true;
-
         //checking for internet connectivity
         if(!uf.isConnected()){
             makeToast(R.string.noInternet);
-        }
+        }else
+            new BackGroundWork().execute(fsym,tsyms);
 
     }
 
     @Override
     public void onStop(){
         super.onStop();
-        canRunThread=false;
     }
 
     private void setRecyclerViewAdapter(){
@@ -119,7 +111,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         @Override
         protected void onPreExecute(){
-            running=true;
             ProgressBar pb=(ProgressBar)findViewById(R.id.pb);
             pb.setVisibility(View.VISIBLE);
         }
@@ -133,7 +124,35 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 updateUI(getCurrency(fsym),rate,getCurrency(tsyms));
                 pb.setVisibility(View.GONE);
             }
-            running=false;
+        }
+    }
+
+    class BackGroundWorkForCardViews extends AsyncTask<String ,Void,String > {
+
+        @Override
+        protected String doInBackground(String... params) {
+            if(validQuery(params[0]) && validQuery(params[1]))
+                return uf.getData(params[0]+"&"+params[1]);
+            else
+                return "";
+        }
+
+        @Override
+        protected void onPreExecute(){
+            makeToast(R.string.load);
+            ProgressBar pb=(ProgressBar)findViewById(R.id.pbc);
+            pb.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        protected void onPostExecute(String s){
+            ProgressBar pb=(ProgressBar)findViewById(R.id.pbc);
+            if(uf.isJson(s)){
+                float Rate=(float)uf.getJsonKey(getCurrency(tsyms),s);
+                rate=Rate>0?Rate:rate;
+                updateUI(getCurrency(fsym),rate,getCurrency(tsyms));
+                pb.setVisibility(View.GONE);
+            }
         }
     }
 
@@ -198,7 +217,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private String getCurrency(String fsym){
         return fsym.split("=")[1];
     }
-
 
     private void makeToast(int stringResource){
         Toast.makeText(MainActivity.this,stringResource,Toast.LENGTH_LONG).show();

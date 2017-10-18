@@ -4,6 +4,7 @@
     <string name="title_activity_exchange">Exchange</string>
     <string name="noInternet">No Internet Connection</string>
     <string name="loading">Loading</string>
+    <string name="load">Rate Updating</string>
 
     <string-array name="cryptocurrency">
         <item>BTC</item>

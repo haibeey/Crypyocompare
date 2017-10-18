@@ -9,6 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -32,6 +34,7 @@ public class myAdapter extends RecyclerView.Adapter<myAdapter.viewHolder> {
         final TextView tv1=(TextView)view.findViewById(R.id.cvtv1);
         final TextView tv2=(TextView)view.findViewById(R.id.cvtv2);
         final ImageView im1=(ImageView)view.findViewById(R.id.cvim);
+        final ProgressBar progressBar=(ProgressBar) view.findViewById(R.id.pbc);
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -48,8 +51,8 @@ public class myAdapter extends RecyclerView.Adapter<myAdapter.viewHolder> {
             @Override
             public void onClick(View v) {
                 String[] arr=String.valueOf(tv1.getText()).split(" ");
-                MainActivity.BackGroundWork backGroundWork=((MainActivity)context).new BackGroundWork();
-                backGroundWork.execute(arr[0],arr[1]);
+                MainActivity.BackGroundWorkForCardViews backGroundWork=((MainActivity)context).new BackGroundWorkForCardViews();
+                backGroundWork.execute(arr[0],arr[2]);
             }
         });
         return new viewHolder(view);
