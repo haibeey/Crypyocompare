@@ -64,8 +64,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         //setting spinner adapters
         setSpinner(R.id.spinner1,R.array.cryptocurrency);
         setSpinner(R.id.spinner2,R.array.worldCurrency);
-
-
     }
 
     @Override
@@ -80,8 +78,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
     @Override
-    public void onStop(){
-        super.onStop();
+    public void onPause(){
+        super.onPause();
     }
 
     private void setRecyclerViewAdapter(){
@@ -94,7 +92,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         myAdapter adapter=new myAdapter(db.getData(),this);
         recyclerView.setAdapter(adapter);
-
     }
 
 
@@ -218,7 +215,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         return fsym.split("=")[1];
     }
 
-    private void makeToast(int stringResource){
+    public void makeToast(int stringResource){
         Toast.makeText(MainActivity.this,stringResource,Toast.LENGTH_LONG).show();
     }
 

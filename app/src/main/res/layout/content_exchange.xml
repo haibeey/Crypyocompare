@@ -15,6 +15,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/all"
+            android:layout_marginLeft="50dp"
             android:layout_centerHorizontal="true"
             android:orientation="vertical">
             <TextView
@@ -46,7 +47,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/atva"
             android:id="@+id/bua"
-            android:background="@drawable/choosebutton"
+            android:background="@drawable/chosebutton2"
             android:text="exchange"/>
     </RelativeLayout>
 </android.support.constraint.ConstraintLayout>

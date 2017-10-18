@@ -52,7 +52,10 @@ public class myAdapter extends RecyclerView.Adapter<myAdapter.viewHolder> {
             public void onClick(View v) {
                 String[] arr=String.valueOf(tv1.getText()).split(" ");
                 MainActivity.BackGroundWorkForCardViews backGroundWork=((MainActivity)context).new BackGroundWorkForCardViews();
-                backGroundWork.execute(arr[0],arr[2]);
+                if(((MainActivity)context).uf.isConnected())
+                    backGroundWork.execute(arr[0],arr[2]);
+                else
+                    ((MainActivity)context).makeToast(R.string.noInternet);
             }
         });
         return new viewHolder(view);
