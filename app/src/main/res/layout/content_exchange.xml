@@ -4,49 +4,53 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_centerHorizontal="true"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.example.haibeey.crypyocompare.Exchange"
     tools:showIn="@layout/activity_exchange">
     <RelativeLayout
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
-        android:gravity="center">
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/all"
-            android:layout_marginLeft="50dp"
-            android:layout_centerHorizontal="true"
-            android:orientation="vertical">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:id="@+id/tvv"
-                android:textColor="@color/colorPrimaryDark"
-                android:gravity="center"
-                android:text="" />
-            <AutoCompleteTextView
-                android:id="@+id/auto"
-                android:layout_width="300dp"
-                android:layout_gravity="center"
-                android:layout_height="50dp" />
-        </LinearLayout>
+        android:gravity="center"
+        android:padding="30dp">
+
         <TextView
-            android:layout_below="@+id/all"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvv"
+            android:gravity="center"
+            android:layout_centerHorizontal="true"
+            android:textSize="30dp"
+            android:padding="@dimen/fab_margin"
+            android:textColor="@color/colorPrimaryDark"
+            android:text="bsbshbhds" />
+        <AutoCompleteTextView
+            android:id="@+id/auto"
+            android:layout_width="300dp"
+            android:layout_below="@+id/tvv"
+            android:inputType="number"
+            android:layout_centerHorizontal="true"
+            android:textSize="30dp"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:layout_below="@+id/auto"
             android:id="@+id/atva"
             android:layout_width="300dp"
             android:text="result"
+            android:gravity="center"
+            android:padding="@dimen/fab_margin"
             android:textColor="@color/colorPrimaryDark"
             android:layout_centerHorizontal="true"
             android:textSize="30dp"
             android:textAlignment="center"
-            android:layout_height="50dp" />
+            android:layout_height="wrap_content" />
         <Button
             android:layout_width="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_height="wrap_content"
             android:layout_below="@+id/atva"
             android:id="@+id/bua"
+            android:layout_marginTop="40dp"
             android:background="@drawable/chosebutton2"
             android:text="exchange"/>
     </RelativeLayout>

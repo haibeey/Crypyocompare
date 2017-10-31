@@ -5,6 +5,10 @@
     <string name="noInternet">No Internet Connection</string>
     <string name="loading">Loading</string>
     <string name="load">Rate Updating</string>
+    <string name="not">could\'nt load data</string>
+    <string name="loadall">loading all</string>
+    <string name="finishloadingall">All price loaded</string>
+
 
     <string-array name="cryptocurrency">
         <item>BTC</item>
