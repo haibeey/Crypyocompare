@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.Log;
+import android.view.View;
 
 import org.json.JSONObject;
 
@@ -16,11 +17,10 @@ import java.util.Scanner;
  * Created by haibeey on 10/7/2017.
  */
 
-    //fsym=ETH&tsyms=BTC,USD,EUR
 
 public class usefulFunctions {
     Context con;
-    public String url="https://min-api.cryptocompare.com/data/price?";
+    public String url="https://min-api.cryptocompare.com/data/pricemultifull?";
     usefulFunctions(Context con){
         this.con=con;
     }
@@ -32,7 +32,7 @@ public class usefulFunctions {
             HttpURLConnection conn=(HttpURLConnection)url.openConnection();
             conn.setRequestMethod("GET");
             conn.setDoInput(true);
-            conn.setReadTimeout(7000);
+            conn.setReadTimeout(25000);
             conn.connect();
 
             InputStream S=conn.getInputStream();
@@ -44,7 +44,6 @@ public class usefulFunctions {
                 res="";
 
         } catch (Exception e){res="";}
-        Log.i("res",res);
         return res;
     }
 
@@ -67,16 +66,24 @@ public class usefulFunctions {
         return false;
     }
 
-    public double getJsonKey(String key,String Data){
+    public String[] getJsonKey(String key,String Value,String Data){
         try{
-            JSONObject jo=new JSONObject(Data);
-            return jo.getDouble(key);
-        }catch (Exception e){}
-        return 0;
+            JSONObject jo=new JSONObject(Data).getJSONObject("DISPLAY");
+            JSONObject theKey=jo.getJSONObject(key);
+            JSONObject theValue=theKey.getJSONObject(Value);
+            return new String []{theValue.getString("PRICE"),theValue.getString("LASTUPDATE"),theValue.getString("VOLUME24HOUR")};
+
+        }catch (Exception e){e.printStackTrace();}
+        return new String[]{};
     }
 
-    public double exchange(double value,double rate){
+    public float exchange(float value,float rate){
         return value*rate;
+    }
+
+    public int generateId(View v,int start){
+        while(v.findViewById(++start%2147483647)!=null){}
+        return start;
     }
 
 }

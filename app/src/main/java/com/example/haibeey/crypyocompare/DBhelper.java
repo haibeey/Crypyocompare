@@ -35,13 +35,13 @@ public class DBhelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         //create a table
-        db.execSQL("create table data (id integer primary key, cryptocurrency text,rate text,currency text)");
+        db.execSQL("create table data (id integer primary key, cryptocurrency text,rate text,currency text,volume text,lastupdate text)");
 
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
+            onCreate(db);
     }
 
     public void  initDb(){
@@ -49,18 +49,20 @@ public class DBhelper extends SQLiteOpenHelper {
         //so we just have to update it each time
         for (int i = 0; i < currency.length; i++) {
             for (int j = 0; j < worldCurrency.length; j++) {
-                insertRecord(currency[i], "", worldCurrency[j]);
+                insertRecord(currency[i], "", worldCurrency[j],"","");
             }
         }
     }
-    public void insertRecord(String cryptocurrency, String rate, String currency) {
-        //method to insert record
+    public void insertRecord(String...Params) {
+        //method to insert record to the database
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
 
-        contentValues.put("cryptocurrency", cryptocurrency);
-        contentValues.put("rate", rate);
-        contentValues.put("currency", currency);
+        contentValues.put("cryptocurrency", Params[0]);
+        contentValues.put("rate", Params[1]);
+        contentValues.put("currency", Params[2]);
+        contentValues.put("volume",Params[3]);
+        contentValues.put("lastupdate",Params[4]);
 
         db.insert("data", null, contentValues);
     }
@@ -76,7 +78,7 @@ public class DBhelper extends SQLiteOpenHelper {
 
         while (!cur.isAfterLast()) {
             if(!cur.getString(2).equals("")){
-                arrayList.add(new String[] {cur.getString(1),cur.getString(2),cur.getString(3)});
+                arrayList.add(new String[] {cur.getString(1),cur.getString(2),cur.getString(3),cur.getString(4),cur.getString(5)});
             }
             cur.moveToNext();
         }
@@ -85,21 +87,24 @@ public class DBhelper extends SQLiteOpenHelper {
         return arrayList;
     }
 
-    public void update(String cryptocurrency, String rate, String currency) {
+    public void update(String cryptocurrency, String rate, String currency,String vol,String lastupdate) {
         //update the database
+        //This update is convenient so users wont have to see card they have already seen
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
 
         contentValues.put("cryptocurrency", cryptocurrency);
         contentValues.put("rate", rate);
         contentValues.put("currency", currency);
+        contentValues.put("volume", vol);
+        contentValues.put("lastupdate", lastupdate);
 
         db.update("data", contentValues, "id =?", new String[] {Integer.toString(getId(cryptocurrency,currency))});
     }
 
 
     private int getId(String cryptoCurrency, String Currency) {
-        if (cryptoCurrency == "BTC") {
+        if (cryptoCurrency .equals("BTC")) {
             for (int i = 0; i < worldCurrency.length; i++) {
                 if (worldCurrency[i].equals(Currency))
                     return i + 1;
@@ -107,7 +112,7 @@ public class DBhelper extends SQLiteOpenHelper {
         } else {
             for (int i = 0; i < worldCurrency.length; i++) {
                 if (worldCurrency[i].equals(Currency))
-                    return 2 * (i + 1);
+                    return 20+ (i + 1);
             }
         }
         return 1;

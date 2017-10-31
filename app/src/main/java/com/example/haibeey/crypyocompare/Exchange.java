@@ -16,10 +16,11 @@ import android.widget.TextView;
 
 public class Exchange extends AppCompatActivity {
 
-    float spinnerData1;
+    String spinnerData1;
     String spinnerData2;
     String spinnerData3;
     usefulFunctions uf;
+    String sign;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +31,7 @@ public class Exchange extends AppCompatActivity {
 
         uf=new usefulFunctions(this);
 
-        spinnerData1=getIntent().getFloatExtra("rate",0);
+        spinnerData1=parse(getIntent().getStringExtra("rate"));
         spinnerData2=getIntent().getStringExtra("cryptocurrency");
         spinnerData3=getIntent().getStringExtra("currency");
 
@@ -43,16 +44,16 @@ public class Exchange extends AppCompatActivity {
     }
 
     private void calculateResult(){
-        //textview that shows the result
+        //text view that shows the result
         TextView textView=(TextView)findViewById(R.id.atva);
         //input view
         AutoCompleteTextView autoCompleteTextView=(AutoCompleteTextView)findViewById(R.id.auto);
+        //user input
+        String value=autoCompleteTextView.getText().toString();
 
-        String value=(String)autoCompleteTextView.getText().toString();
+        Float result= uf.exchange(Float.valueOf(spinnerData1), Float.valueOf(value));
+        textView.setText(sign+String.valueOf(result));
 
-        float result=(float)uf.exchange(spinnerData1,Double.valueOf(value));
-
-        textView.setText(String.valueOf(((long) result)));
 
 
     }
@@ -71,4 +72,11 @@ public class Exchange extends AppCompatActivity {
             }
         });
     }
+
+    private String parse(String s){
+        s=s.replaceAll(",","");
+        sign=s.split(" ")[0]+" ";
+        return s.split(" ")[1];
+    }
+
 }
