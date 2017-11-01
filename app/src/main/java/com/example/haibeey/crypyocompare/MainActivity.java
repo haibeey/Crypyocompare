@@ -86,6 +86,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             @Override
             public void handleMessage(Message msg) {
                 ++numberOfMsgSent;
+                SwipeRefreshLayout swipeRefreshLayout=(SwipeRefreshLayout)findViewById(R.id.swiperefresh);
                 if(msg.equals(null)){
                     makeToast(R.string.not,false);
                 }else if(msg.obj=="no internet"){
@@ -93,7 +94,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 }
                 //This ensures there is enough data before updating the ui
                 if(numberOfMsgSent>=dataSent){
-                    SwipeRefreshLayout swipeRefreshLayout=(SwipeRefreshLayout)findViewById(R.id.swiperefresh);
                     swipeRefreshLayout.setRefreshing(false);
                     RecyclerView recyclerView=(RecyclerView)findViewById(R.id.rcv);
                     myAdapter adapter=new myAdapter(db.getData(),MainActivity.this);
@@ -298,6 +298,15 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         thread=new Thread(new Runnable() {
             @Override
             public void run() {
+                if(!uf.isConnected()){
+                    Message msg=new Message();
+                    msg.obj="no internet";
+                    handler.sendMessage(msg );
+
+                }
+                if(arr.size()==0){
+                    handler.sendEmptyMessage(0);
+                }
                 for(String[] data:arr){
                     if(uf.isConnected()){
                         Message msg=new Message();
