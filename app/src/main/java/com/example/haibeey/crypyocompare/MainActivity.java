@@ -1,14 +1,9 @@
 package com.example.haibeey.crypyocompare;
 
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -19,13 +14,11 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -93,20 +86,15 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             @Override
             public void handleMessage(Message msg) {
                 ++numberOfMsgSent;
-                ProgressBar pb=(ProgressBar) findViewById(R.id.pboab);
                 if(msg.equals(null)){
-                    pb.setVisibility(View.GONE);
                     makeToast(R.string.not,false);
-                }else if(msg.obj=="update"){
-                    pb.setVisibility(View.GONE);
                 }else if(msg.obj=="no internet"){
-                    pb.setVisibility(View.GONE);
                     makeToast(R.string.noInternet,false);
-                } else if (msg.obj == "load") {
-                    pb.setVisibility(View.VISIBLE);
                 }
                 //This ensures there is enough data before updating the ui
                 if(numberOfMsgSent>=dataSent){
+                    SwipeRefreshLayout swipeRefreshLayout=(SwipeRefreshLayout)findViewById(R.id.swiperefresh);
+                    swipeRefreshLayout.setRefreshing(false);
                     RecyclerView recyclerView=(RecyclerView)findViewById(R.id.rcv);
                     myAdapter adapter=new myAdapter(db.getData(),MainActivity.this);
                     recyclerView.swapAdapter(adapter,true);
@@ -252,10 +240,11 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
     private void refreshListenner(){
-        ImageView im=(ImageView)findViewById(R.id.refresh);
-        im.setOnClickListener(new View.OnClickListener() {
+        final SwipeRefreshLayout swipeRefreshLayout=(SwipeRefreshLayout)findViewById(R.id.swiperefresh);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
-            public void onClick(View v) {
+            public void onRefresh() {
+                swipeRefreshLayout.setRefreshing(true);
                 fillAll();
             }
         });
@@ -336,7 +325,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             msg.obj="update";
             handler.sendMessage(msg );
         }catch (Exception e){
-            Log.i("traceS",e.toString());
             handler.sendEmptyMessage(1);
         }
     }
